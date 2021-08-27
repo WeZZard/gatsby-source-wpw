@@ -1,5 +1,5 @@
 {
-  "name": "gatsby-starter-plugin",
+  "name": "gatsby-source-wpw",
   "version": "1.0.0",
   "description": "A minimal boilerplate for the essential files Gatsby looks for in a plugin",
   "main": "index.js",
@@ -9,8 +9,21 @@
   },
   "keywords": [
     "gatsby",
-    "gatsby-plugin"
+    "gatsby-plugin",
+    "WeZZard Personal Works"
   ],
-  "author": "Kyle Gill <kyle.robert.gill@gmail.com>",
-  "license": "0BSD"
+  "author": "WeZZard",
+  "license": "0BSD",
+  "repository": {
+    "type": "git",
+    "url": "https://metis.wezzard.com/source/gatsby-source-wpw"
+  },
+  "bugs": {
+    "url": "https://metis.wezzard.com/maniphest/"
+  },
+  "dependencies": {
+    "gatsby-plugin-mdx": "^2.12.0",
+    "gatsby-source-filesystem": "^3.12.0",
+    "i18n-locales": "^0.0.5"
+  }
 }
