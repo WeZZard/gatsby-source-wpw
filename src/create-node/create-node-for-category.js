@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const debug = require('debug');
+const debug = require('debug')('gatsby-source-wpw');
 
 module.exports = function(args) {
   const {
@@ -22,7 +22,7 @@ module.exports = function(args) {
         categoryData.name
       }" shares the same kebabName: ${node.kebabName}, which is not allowed.`;
     }
-    debug(`Returns the data of existed category node: ${node}`);
+    debug(`Returns the data of existed category node: ${JSON.stringify(node)}`);
     return node.id;
   } else if (existedNodes.length === 0) {
     const nodeId = createNodeId(`category-${kebabCategory}`);
@@ -36,7 +36,7 @@ module.exports = function(args) {
         contentDigest: createContentDigest(categoryData.kebabName),
       },
     });
-    debug(`Create category node: ${category}`);
+    debug(`Create category node: ${JSON.stringify(category)}`);
     createNode(nodeData);
     return nodeId;
   } else {

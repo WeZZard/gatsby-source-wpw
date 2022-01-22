@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const debug = require('debug');
+const debug = require('debug')('gatsby-source-wpw');
 
 module.exports = function(args) {
   const {
@@ -10,8 +10,10 @@ module.exports = function(args) {
     createContentDigest,
   } = args;
 
-  const kebabTag = _.kebabCase(tag);
-  const tagData = { name: tag, kebabName: `${kebabTag}` };
+  const tagContent = tag.toString()
+
+  const kebabTag = _.kebabCase(tagContent);
+  const tagData = { name: tagContent, kebabName: `${kebabTag}` };
   const existedNodes = getNodesByType(`Tag`).filter(
     node => node.kebabName === tagData.kebabName,
   );
@@ -22,7 +24,7 @@ module.exports = function(args) {
         node.kebabName
       }, which is not allowed.`;
     }
-    debug(`Returns the data of existed tag node: ${node}`);
+    debug(`Returns the data of existed tag node: ${JSON.stringify(node)}`);
     return node.id;
   } else if (existedNodes.length === 0) {
     const nodeId = createNodeId(`tag-${kebabTag}`);
@@ -33,10 +35,10 @@ module.exports = function(args) {
       internal: {
         type: `Tag`,
         contentDigest: createContentDigest(tagData.kebabName),
-        content: tag,
+        content: tagContent,
       },
     });
-    debug(`Create tag node: ${tag}`);
+    debug(`Create tag node: ${JSON.stringify(tagContent)}`);
     debug(nodeData);
     createNode(nodeData);
     return nodeId;
