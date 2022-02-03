@@ -1,4 +1,4 @@
-const MDXMetadata = require('../../mdx-metadata');
+import { MDXMetadata } from '../../mdx-metadata';
 const { makeDisambiguator: _ } = require('../../mdx-shims');
 
 test('MDXMetadata creates metadata of Post whose createdTime can fallback to time on relative path', () => {
@@ -28,26 +28,17 @@ test('MDXMetadata creates metadata of Post whose createdTime can fallback to tim
     rawBody: '',
   };
 
-  const args = {
-    node: node,
-    getNode: node => {
-      return node.id === 'parentNode' ? parentNode : null;
-    },
-  };
-
   const result = {
     title: 'Post Title',
     isIndex: false,
     isPublished: true,
     createdTime: new Date('2019-01-01'),
     lang: '',
-    isLocalized: false,
-    isMasterPost: true,
     masterName: 'Post-Title',
     masterCreatedTime: new Date('2019-01-01'),
-    masterDisambiguator: `${_('2019-01-01-Post-Title')}`,
-    relativePath: '2019-01-01-Post-Title.md',
+    disambiguator: `${_('2019-01-01-Post-Title')}`,
+    filename: '2019-01-01-Post-Title.md',
   };
 
-  expect(MDXMetadata(args)).toEqual(result);
+  expect(MDXMetadata.make(node, parentNode)).toEqual(result);
 });

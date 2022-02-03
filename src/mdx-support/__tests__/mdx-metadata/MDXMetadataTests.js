@@ -1,16 +1,15 @@
-const MDXMetadata = require('../../mdx-metadata');
+import { MDXMetadata } from '../../mdx-metadata';
 const { makeDisambiguator: _ } = require('../../mdx-shims');
 
 test('MDXMetadata returns null when node.internal.type is not Mdx', () => {
-  const args = {
-    node: {
-      internal: {
-        type: 'File',
-      },
+  const node = {
+    internal: {
+      type: 'File',
     },
   };
+  const parentNode = {};
 
-  expect(MDXMetadata(args)).toBeNull();
+  expect(MDXMetadata.make(node, parentNode)).toBeNull();
 });
 
 test('MDXMetadata creates metadata of Post', () => {
@@ -41,28 +40,19 @@ test('MDXMetadata creates metadata of Post', () => {
     rawBody: '',
   };
 
-  const args = {
-    node: node,
-    getNode: node => {
-      return node.id === 'parentNode' ? parentNode : null;
-    },
-  };
-
   const result = {
     createdTime: new Date('2019-01-02T00:00:00.000Z'),
     title: 'Post Title',
     isIndex: false,
     isPublished: true,
     lang: '',
-    isLocalized: false,
-    isMasterPost: true,
     masterName: 'Post-Title',
     masterCreatedTime: new Date('2019-01-01T00:00:00.000Z'),
-    masterDisambiguator: `${_('2019-01-01-Post-Title')}`,
-    relativePath: '2019-01-01-Post-Title.md',
+    disambiguator: `${_('2019-01-01-Post-Title')}`,
+    filename: '2019-01-01-Post-Title.md',
   };
 
-  expect(MDXMetadata(args)).toEqual(result);
+  expect(MDXMetadata.make(node, parentNode)).toEqual(result);
 });
 
 test('MDXMetadata creates metadata of localized Post', () => {
@@ -92,27 +82,18 @@ test('MDXMetadata creates metadata of localized Post', () => {
     rawBody: '',
   };
 
-  const args = {
-    node: node,
-    getNode: node => {
-      return node.id === 'parentNode' ? parentNode : null;
-    },
-  };
-
   const result = {
     title: 'Post Title',
     isIndex: true,
     isPublished: true,
     createdTime: new Date('2019-01-01'),
     lang: 'en-US',
-    isLocalized: true,
-    isMasterPost: false,
     masterName: 'Post-Title',
     masterCreatedTime: new Date('2019-01-01'),
-    masterDisambiguator: `${_('2019-01-01-Post-Title')}`,
-    relativePath: 'index.md',
+    disambiguator: `${_('2019-01-01-Post-Title')}`,
+    filename: 'index.md',
   };
 
-  expect(MDXMetadata(args)).toEqual(result);
+  expect(MDXMetadata.make(node, parentNode)).toEqual(result);
 });
 

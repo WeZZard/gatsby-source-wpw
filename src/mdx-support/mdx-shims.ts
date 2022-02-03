@@ -15,11 +15,13 @@ export function getTitle(
     frontMatterTitle === undefined ||
       frontMatterTitle === null ||
       typeof frontMatterTitle == 'string',
+    `frontMatterTitle is ${frontMatterTitle}`,
   );
   assert(
     documentName !== undefined &&
       documentName !== null &&
       typeof documentName == 'string',
+    `documentName is ${documentName}`,
   );
   if (frontMatterTitle) {
     return frontMatterTitle;
@@ -44,11 +46,13 @@ export function getCreatedTime(
     frontMatterDate === undefined ||
       frontMatterDate === null ||
       frontMatterDate instanceof Date,
+    `frontMatterDate is ${frontMatterDate}`,
   );
   assert(
     documentNameDate === undefined ||
       documentNameDate === null ||
       documentNameDate instanceof Date,
+    `documentNameDate is ${documentNameDate}`,
   );
   assert(
     birthTime != undefined && birthTime != null && birthTime instanceof Date,
