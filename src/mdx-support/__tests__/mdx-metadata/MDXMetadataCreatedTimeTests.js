@@ -1,5 +1,5 @@
-import { MDXMetadata } from '../../mdx-metadata';
-const { makeDisambiguator: _ } = require('../../mdx-shims');
+import {MDXMetadata} from '../../mdx-metadata';
+import {makeDisambiguator as _} from '../../mdx-shims';
 
 test('MDXMetadata creates metadata of Post whose createdTime can fallback to time on relative path', () => {
   const parentNode = {

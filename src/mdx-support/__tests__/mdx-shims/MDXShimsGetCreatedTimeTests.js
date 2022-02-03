@@ -1,12 +1,12 @@
-const { getCreatedTime } = require('../../mdx-shims');
+import {reduceCreatedTime} from '../../mdx-shims';
 
 const birthTimeString = `1990-01-01`;
 const frontmatterDateString = `1990-01-02`;
 const documentDateString = `1990-01-03`;
 
-test('getCreatedTime throws when frontMatterDate is not of type Date', () => {
+test('reduceCreatedTime throws when frontMatterDate is not of type Date', () => {
   expect(() => {
-    getCreatedTime(
+    reduceCreatedTime(
       new Date(birthTimeString),
       frontmatterDateString,
       new Date(documentDateString),
@@ -14,9 +14,9 @@ test('getCreatedTime throws when frontMatterDate is not of type Date', () => {
   }).toThrow();
 });
 
-test('getCreatedTime does not throw when frontMatterDate is null', () => {
+test('reduceCreatedTime does not throw when frontMatterDate is null', () => {
   expect(() => {
-    getCreatedTime(
+    reduceCreatedTime(
       new Date(birthTimeString),
       null,
       new Date(documentDateString),
@@ -24,9 +24,9 @@ test('getCreatedTime does not throw when frontMatterDate is null', () => {
   }).not.toThrow();
 });
 
-test('getCreatedTime does not throw when frontMatterDate is undefined', () => {
+test('reduceCreatedTime does not throw when frontMatterDate is undefined', () => {
   expect(() => {
-    getCreatedTime(
+    reduceCreatedTime(
       new Date(birthTimeString),
       undefined,
       new Date(documentDateString),
@@ -34,9 +34,9 @@ test('getCreatedTime does not throw when frontMatterDate is undefined', () => {
   }).not.toThrow();
 });
 
-test('getCreatedTime throws when documentNameDate is not of type Date', () => {
+test('reduceCreatedTime throws when documentNameDate is not of type Date', () => {
   expect(() => {
-    getCreatedTime(
+    reduceCreatedTime(
       new Date(birthTimeString),
       new Date(frontmatterDateString),
       documentDateString,
@@ -44,9 +44,9 @@ test('getCreatedTime throws when documentNameDate is not of type Date', () => {
   }).toThrow();
 });
 
-test('getCreatedTime does not when documentNameDate is null', () => {
+test('reduceCreatedTime does not when documentNameDate is null', () => {
   expect(() => {
-    getCreatedTime(
+    reduceCreatedTime(
       new Date(birthTimeString),
       new Date(frontmatterDateString),
       null,
@@ -54,9 +54,9 @@ test('getCreatedTime does not when documentNameDate is null', () => {
   }).not.toThrow();
 });
 
-test('getCreatedTime does not when documentNameDate is undefined', () => {
+test('reduceCreatedTime does not when documentNameDate is undefined', () => {
   expect(() => {
-    getCreatedTime(
+    reduceCreatedTime(
       new Date(birthTimeString),
       new Date(frontmatterDateString),
       undefined,
@@ -64,9 +64,9 @@ test('getCreatedTime does not when documentNameDate is undefined', () => {
   }).not.toThrow();
 });
 
-test('getCreatedTime throws when birthTime is not of type Date', () => {
+test('reduceCreatedTime throws when birthTime is not of type Date', () => {
   expect(() => {
-    getCreatedTime(
+    reduceCreatedTime(
       birthTimeString,
       new Date(frontmatterDateString),
       new Date(documentDateString),
@@ -74,9 +74,9 @@ test('getCreatedTime throws when birthTime is not of type Date', () => {
   }).toThrow();
 });
 
-test('getCreatedTime throws when birthTime is null', () => {
+test('reduceCreatedTime throws when birthTime is null', () => {
   expect(() => {
-    getCreatedTime(
+    reduceCreatedTime(
       null,
       new Date(frontmatterDateString),
       new Date(documentDateString),
@@ -84,9 +84,9 @@ test('getCreatedTime throws when birthTime is null', () => {
   }).toThrow();
 });
 
-test('getCreatedTime does not throw when birthTime is undefined', () => {
+test('reduceCreatedTime does not throw when birthTime is undefined', () => {
   expect(() => {
-    getCreatedTime(
+    reduceCreatedTime(
       undefined,
       new Date(frontmatterDateString),
       new Date(documentDateString),
@@ -94,24 +94,24 @@ test('getCreatedTime does not throw when birthTime is undefined', () => {
   }).toThrow();
 });
 
-test('getCreatedTime returns frontMatterDate when frontMatterDate is given', () => {
-  expect(getCreatedTime(
+test('reduceCreatedTime returns frontMatterDate when frontMatterDate is given', () => {
+  expect(reduceCreatedTime(
     new Date(birthTimeString),
     new Date(frontmatterDateString),
     new Date(documentDateString),
   )).toEqual(new Date(frontmatterDateString));
 });
 
-test('getCreatedTime returns documentNameDate when documentNameDate is given and frontMatterDate is not given', () => {
-  expect(getCreatedTime(
+test('reduceCreatedTime returns documentNameDate when documentNameDate is given and frontMatterDate is not given', () => {
+  expect(reduceCreatedTime(
     new Date(birthTimeString),
     null,
     new Date(documentDateString),
   )).toEqual(new Date(documentDateString));
 });
 
-test('getCreatedTime returns birthTime when birthTime is given and frontMatterDate and documentNameDate is both not given', () => {
-  expect(getCreatedTime(
+test('reduceCreatedTime returns birthTime when birthTime is given and frontMatterDate and documentNameDate is both not given', () => {
+  expect(reduceCreatedTime(
     new Date(birthTimeString),
     null,
     null,

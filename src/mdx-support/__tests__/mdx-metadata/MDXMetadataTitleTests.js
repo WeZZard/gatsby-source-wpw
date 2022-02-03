@@ -1,5 +1,5 @@
-import { MDXMetadata } from '../../mdx-metadata';
-const { makeDisambiguator: _ } = require('../../mdx-shims');
+import {MDXMetadata} from '../../mdx-metadata';
+import {makeDisambiguator as _} from '../../mdx-shims';
 
 test('MDXMetadata creates metadata of Post whose title can fallback to its document name', () => {
   const parentNode = {

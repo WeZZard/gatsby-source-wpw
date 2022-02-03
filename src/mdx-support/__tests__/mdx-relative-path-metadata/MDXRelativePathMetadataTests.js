@@ -1,5 +1,5 @@
-import { MDXRelativePathMetadata } from '../../mdx-relative-path-metadata';
-const { makeDisambiguator: _ } = require('../../mdx-shims');
+import {MDXRelativePathMetadata} from '../../mdx-relative-path-metadata';
+import {makeDisambiguator as _} from '../../mdx-shims';
 
 test('MDXRelativePathMetadata creates metadata for standalone Post relative path of valid date', () => {
   expect(MDXRelativePathMetadata.make(`1990-01-02-post-name.md`)).toEqual({
