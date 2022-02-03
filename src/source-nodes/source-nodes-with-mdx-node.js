@@ -7,6 +7,8 @@ const {
   createNodeForLocale,
 } = require('../create-node');
 
+import { isPreviewEnabled } from '../utilities'
+
 module.exports = (args) => {
   const {
     mdxNode,
@@ -19,7 +21,7 @@ module.exports = (args) => {
     sourceInstanceName
   } = args;
 
-  const isPreviewEnabled = _isPreviewEnabled();
+  const isInPreview = isPreviewEnabled();
 
   const metadata = new MDXMetadata({ node: mdxNode, getNode });
 
@@ -27,7 +29,7 @@ module.exports = (args) => {
 
   const absolutePath = fileNode.absolutePath;
 
-  if (isPreviewEnabled || (!isPreviewEnabled && metadata.isPublished)) {
+  if (isInPreview || (!isInPreview && metadata.isPublished)) {
 
     const postMasterNodeId = createNodeForPostMaster(
       {
@@ -119,15 +121,3 @@ module.exports = (args) => {
 
   }
 };
-
-function _isPreviewEnabled() {
-  if (process.env.GATSBY_IS_PREVIEW_ENABLED) {
-    return true;
-  }
-  if (typeof (process.env.gatsby_executing_command) == "string") {
-    if (process.env.gatsby_executing_command.includes("develop")) {
-      return true;
-    }
-  }
-  return false;
-}

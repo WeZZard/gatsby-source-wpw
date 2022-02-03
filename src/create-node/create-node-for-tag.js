@@ -1,5 +1,5 @@
+import { log } from '../utilities';
 const _ = require('lodash');
-const debug = require('debug')('gatsby-source-wpw');
 
 module.exports = function(args) {
   const {
@@ -24,7 +24,7 @@ module.exports = function(args) {
         node.kebabName
       }, which is not allowed.`;
     }
-    debug(`Returns the data of existed tag node: ${JSON.stringify(node)}`);
+    log(`Returns the data of existed tag node: ${JSON.stringify(node)}`);
     return node.id;
   } else if (existedNodes.length === 0) {
     const nodeId = createNodeId(`tag-${kebabTag}`);
@@ -38,8 +38,8 @@ module.exports = function(args) {
         content: tagContent,
       },
     });
-    debug(`Create tag node: ${JSON.stringify(tagContent)}`);
-    debug(nodeData);
+    log(`Create tag node: ${JSON.stringify(tagContent)}`);
+    log(nodeData);
     createNode(nodeData);
     return nodeId;
   } else {

@@ -1,4 +1,4 @@
-const debug = require('debug')('gatsby-source-wpw');
+import { log } from '../utilities';
 
 module.exports = function (args) {
   const {
@@ -36,7 +36,7 @@ module.exports = function (args) {
     }
   );
 
-  debug(`Create post node: ${JSON.stringify(data)}`);
+  log(`Create post node: ${JSON.stringify(data)}`);
   createNode(nodeData);
 
   createParentChildLink({ parent: getNode(masterNodeId), child: getNode(nodeId) });

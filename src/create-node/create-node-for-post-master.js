@@ -1,4 +1,4 @@
-const debug = require('debug')('gatsby-source-wpw');
+import { log } from '../utilities';
 
 module.exports = function(args) {
   const {
@@ -22,7 +22,7 @@ module.exports = function(args) {
   );
   if (existedNodes.length === 1) {
     const node = existedNodes[0];
-    debug(`Returns the data of existed post master node: ${JSON.stringify(node)}`);
+    log(`Returns the data of existed post master node: ${JSON.stringify(node)}`);
     return node.id;
   } else if (existedNodes.length === 0) {
     const nodeId = createNodeId(`post-master-${name}-${disambiguator}`);
@@ -35,7 +35,7 @@ module.exports = function(args) {
       },
     });
   
-    debug(`Create post master node: ${JSON.stringify(data)}`);
+    log(`Create post master node: ${JSON.stringify(data)}`);
     createNode(nodeData);
   
     return nodeId;

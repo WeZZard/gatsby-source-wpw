@@ -50,12 +50,14 @@ test('MDXMetadata creates metadata of Post', () => {
 
   const result = {
     createdTime: new Date('2019-01-02T00:00:00.000Z'),
-    documentType: 'Post',
     title: 'Post Title',
     isIndex: false,
     isPublished: true,
     lang: '',
     isLocalized: false,
+    isMasterPost: true,
+    masterName: 'Post-Title',
+    masterCreatedTime: new Date('2019-01-01T00:00:00.000Z'),
     masterDisambiguator: `${_('2019-01-01-Post-Title')}`,
     relativePath: '2019-01-01-Post-Title.md',
   };
@@ -98,13 +100,15 @@ test('MDXMetadata creates metadata of localized Post', () => {
   };
 
   const result = {
-    documentType: 'Post',
     title: 'Post Title',
     isIndex: true,
     isPublished: true,
     createdTime: new Date('2019-01-01'),
     lang: 'en-US',
     isLocalized: true,
+    isMasterPost: false,
+    masterName: 'Post-Title',
+    masterCreatedTime: new Date('2019-01-01'),
     masterDisambiguator: `${_('2019-01-01-Post-Title')}`,
     relativePath: 'index.md',
   };

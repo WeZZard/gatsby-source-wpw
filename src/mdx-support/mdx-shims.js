@@ -1,5 +1,4 @@
 const assert = require('assert');
-const debug = require('debug');
 const locales = require('i18n-locales');
 
 const getTitle = (frontMatterTitle, documentName) => {
@@ -56,7 +55,10 @@ let _localeIdentifierPattern_;
 
 const localeIdentifierPattern = () => {
   if (!_isLocaleIdentifierPatternInitialized) {
-    _localeIdentifierPattern_ = locales.join('|');
+    var completedLocales = locales;
+    completedLocales.push('zh-Hant')
+    completedLocales.push('zh-Hans')
+    _localeIdentifierPattern_ = completedLocales.join('|');
   }
   assert(typeof _localeIdentifierPattern_ === 'string');
   assert(_localeIdentifierPattern_ !== '');

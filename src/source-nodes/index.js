@@ -1,6 +1,9 @@
-sourceNodesWithMdxNode = require('./source-nodes-with-mdx-node');
+const sourceNodesWithMdxNode = require('./source-nodes-with-mdx-node');
 
 module.exports = (api, pluginOptions) => {
+
+  // create post-master by scanning directories under specified wpw url
+  // create posts by scanning mdx nodes under specified wpw url
 
   // TODO: Make 'Default' unique each time the program was ran.
   const defaultSourceInstanceName = `Default`

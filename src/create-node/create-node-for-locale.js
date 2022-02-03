@@ -1,4 +1,4 @@
-const debug = require('debug')('gatsby-source-wpw');
+import { log } from '../utilities';
 const { localeIdentifierPattern } = require('../mdx-support/mdx-shims.js');
 
 module.exports = function(args) {
@@ -26,7 +26,7 @@ module.exports = function(args) {
     if (node.identifier !== localeData.identifier) {
       throw `Duplicate locale "${node.identifier}".`;
     }
-    debug(`Returns the data of existed locale node: ${JSON.stringify(node)}`);
+    log(`Returns the data of existed locale node: ${JSON.stringify(node)}`);
     return node.id;
   } else if (existedNodes.length === 0) {
     const nodeId = createNodeId(`locale-${locale}`);
@@ -40,7 +40,7 @@ module.exports = function(args) {
         contentDigest: createContentDigest(localeData.identifier),
       },
     });
-    debug(`Create locale node: ${JSON.stringify(locale)}`);
+    log(`Create locale node: ${JSON.stringify(locale)}`);
     createNode(nodeData);
     return nodeId;
   } else {

@@ -34,16 +34,18 @@ module.exports = function(args) {
 
     const relativePathMetadata = new MDXRelativePathMetadata(relativePath);
 
+    const isMaster = !relativePathMetadata.isLocalized;
+
     metadata.masterName = relativePathMetadata.masterName;
 
     metadata.masterDisambiguator = relativePathMetadata.masterDisambiguator;
 
     metadata.masterCreatedTime = relativePathMetadata.masterCreatedTime;
 
-    metadata.isMasterPost = !relativePathMetadata.isLocalized
+    metadata.isMasterPost = isMaster
 
     metadata.title = getTitle(
-      node.frontmatter.title,
+      node.frontmatter.title ?? relativePathMetadata.masterName,
       relativePathMetadata.name,
     );
 

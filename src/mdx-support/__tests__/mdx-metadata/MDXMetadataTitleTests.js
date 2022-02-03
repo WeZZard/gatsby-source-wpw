@@ -35,13 +35,15 @@ test('MDXMetadata creates metadata of Post whose title can fallback to its docum
   };
 
   const result = {
-    documentType: 'Post',
     title: 'Post-Title',
+    createdTime: new Date('2019-01-01'),
     isIndex: false,
     isPublished: true,
-    createdTime: new Date('2019-01-01'),
     lang: '',
     isLocalized: false,
+    isMasterPost: true,
+    masterName: 'Post-Title',
+    masterCreatedTime: new Date('2019-01-01'),
     masterDisambiguator: `${_('2019-01-01-Post-Title')}`,
     relativePath: '2019-01-01-Post-Title.md',
   };

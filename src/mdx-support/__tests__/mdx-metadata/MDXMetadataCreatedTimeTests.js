@@ -36,13 +36,15 @@ test('MDXMetadata creates metadata of Post whose createdTime can fallback to tim
   };
 
   const result = {
-    documentType: 'Post',
     title: 'Post Title',
     isIndex: false,
     isPublished: true,
     createdTime: new Date('2019-01-01'),
     lang: '',
     isLocalized: false,
+    isMasterPost: true,
+    masterName: 'Post-Title',
+    masterCreatedTime: new Date('2019-01-01'),
     masterDisambiguator: `${_('2019-01-01-Post-Title')}`,
     relativePath: '2019-01-01-Post-Title.md',
   };

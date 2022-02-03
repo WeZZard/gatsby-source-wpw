@@ -4,8 +4,7 @@
   "description": "A minimal boilerplate for the essential files Gatsby looks for in a plugin",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "echo \"No build script setup\""
+    "test": "jest"
   },
   "keywords": [
     "gatsby",
@@ -26,5 +25,16 @@
     "gatsby-source-filesystem": "^3.14.0",
     "gatsby-source-git": "^1.1.0",
     "i18n-locales": "^0.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.14",
+    "eslint": "^8.8.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "jest": "^27.4.7",
+    "ts-node": "^10.4.0"
   }
 }
