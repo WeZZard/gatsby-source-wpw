@@ -45,8 +45,8 @@ module.exports = function(args) {
     metadata.isMasterPost = isMaster
 
     metadata.title = getTitle(
-      node.frontmatter.title ?? relativePathMetadata.masterName,
-      relativePathMetadata.name,
+      node.frontmatter.title,
+      relativePathMetadata.masterName,
     );
 
     metadata.lang = relativePathMetadata.lang || node.frontmatter.lang || '';
@@ -60,9 +60,9 @@ module.exports = function(args) {
       node.frontmatter.isPublished === 'true';
 
     metadata.createdTime = getCreatedTime(
+      birthTime,
       specifiedCreatedTime,
       relativePathMetadata.masterCreatedTime,
-      birthTime,
     );
 
     metadata.relativePath = relativePathMetadata.relativePath;
