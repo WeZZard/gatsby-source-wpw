@@ -1,4 +1,4 @@
-import {getTitle, getCreatedTime} from './mdx-shims';
+import {reduceTitle, reduceCreatedTime} from './mdx-shims';
 import {MDXRelativePathMetadata} from './mdx-relative-path-metadata';
 import {log} from '../utilities';
 import {assert} from 'console';
@@ -7,15 +7,15 @@ import {assert} from 'console';
  * Metadata about an MDX document.
  */
 export class MDXMetadata {
-  public filename: string;
-  public title: string;
-  public isIndex: boolean;
-  public isPublished: boolean;
-  public createdTime: Date;
-  public disambiguator: string;
-  public lang: string;
-  public masterName: string;
-  public masterCreatedTime: Date;
+  public readonly filename: string;
+  public readonly title: string;
+  public readonly isIndex: boolean;
+  public readonly isPublished: boolean;
+  public readonly createdTime: Date;
+  public readonly disambiguator: string;
+  public readonly lang: string;
+  public readonly masterName: string;
+  public readonly masterCreatedTime: Date;
 
   /**
    * Constructs an MDXMetadata instance.
@@ -71,18 +71,18 @@ export class MDXMetadata {
       return null;
     }
 
-    const birthTime = fileNode.birthTime
-      ? new Date(fileNode.birthTime)
-      : undefined;
+    const birthTime = fileNode.birthTime ?
+      new Date(fileNode.birthTime) :
+      undefined;
 
     if (!birthTime) {
       log(`Cannot make MDXMetadata with node which has no birthTime.`);
       return null;
     }
 
-    const fontmatterDate = node.frontmatter.date
-      ? new Date(node.frontmatter.date)
-      : undefined;
+    const fontmatterDate = node.frontmatter.date ?
+      new Date(node.frontmatter.date) :
+      undefined;
 
     const relativePathMetadata = MDXRelativePathMetadata.make(
       fileNode.relativePath,
@@ -90,7 +90,8 @@ export class MDXMetadata {
 
     if (!relativePathMetadata) {
       log(
-        `Cannot make MDXMetadata due to failure of parsing relative path ${fileNode.relativePath}.`,
+        `Cannot make MDXMetadata due to failure of` +
+        ` parsing relative path ${fileNode.relativePath}.`,
       );
       return null;
     }
@@ -101,7 +102,10 @@ export class MDXMetadata {
 
     const masterCreatedTime = relativePathMetadata.createdTime;
 
-    const title = getTitle(relativePathMetadata.name, node.frontmatter.title);
+    const title = reduceTitle(
+      relativePathMetadata.name,
+      node.frontmatter.title,
+    );
 
     const lang = relativePathMetadata.lang || node.frontmatter.lang || '';
 
@@ -111,7 +115,7 @@ export class MDXMetadata {
       node.frontmatter.isPublished === undefined ||
       node.frontmatter.isPublished === 'true';
 
-    const createdTime = getCreatedTime(
+    const createdTime = reduceCreatedTime(
       birthTime,
       fontmatterDate,
       relativePathMetadata.createdTime,

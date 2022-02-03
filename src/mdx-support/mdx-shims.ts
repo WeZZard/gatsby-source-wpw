@@ -7,20 +7,20 @@ import locales from 'i18n-locales';
  * @param {string | undefined} frontMatterTitle
  * @return {string}
  */
-export function getTitle(
+export function reduceTitle(
   documentName: string,
   frontMatterTitle?: string,
 ): string {
   assert(
     frontMatterTitle === undefined ||
-      frontMatterTitle === null ||
-      typeof frontMatterTitle == 'string',
+    frontMatterTitle === null ||
+    typeof frontMatterTitle == 'string',
     `frontMatterTitle is ${frontMatterTitle}`,
   );
   assert(
     documentName !== undefined &&
-      documentName !== null &&
-      typeof documentName == 'string',
+    documentName !== null &&
+    typeof documentName == 'string',
     `documentName is ${documentName}`,
   );
   if (frontMatterTitle) {
@@ -37,21 +37,21 @@ export function getTitle(
  * @param {Date | undefined} documentNameDate
  * @return {Date}
  */
-export function getCreatedTime(
+export function reduceCreatedTime(
   birthTime: Date,
   frontMatterDate?: Date,
   documentNameDate?: Date,
 ): Date {
   assert(
     frontMatterDate === undefined ||
-      frontMatterDate === null ||
-      frontMatterDate instanceof Date,
+    frontMatterDate === null ||
+    frontMatterDate instanceof Date,
     `frontMatterDate is ${frontMatterDate}`,
   );
   assert(
     documentNameDate === undefined ||
-      documentNameDate === null ||
-      documentNameDate instanceof Date,
+    documentNameDate === null ||
+    documentNameDate instanceof Date,
     `documentNameDate is ${documentNameDate}`,
   );
   assert(
@@ -91,7 +91,7 @@ let localeIdentifierPatterns: string | null = null;
  * Get regex pattern for locale identifiers.
  * @return {string}
  */
-export function localeIdentifierPattern(): string {
+export function getLocaleIdentifierPattern(): string {
   if (localeIdentifierPatterns === null) {
     const adjustedLocales = locales;
     // i18-locales does not contain zh-Hant & zh-Hans, complete it here.

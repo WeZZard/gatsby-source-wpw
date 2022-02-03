@@ -1,5 +1,5 @@
-const assert = require('assert');
-const {localeIdentifierPattern, makeDisambiguator} = require('./mdx-shims');
+import assert from 'assert';
+import {getLocaleIdentifierPattern, makeDisambiguator} from './mdx-shims';
 
 let recognitionPattern: RegExp | null = null;
 
@@ -71,19 +71,19 @@ export class MDXRelativePathMetadata {
     const tz3 = `([0-9]{2})([0-9]{2})`;
     const tz = `Z|((\\+|-)((${tz1})|(${tz3})))`;
     const indexDoc = `(index).mdx?`;
-    const locales = localeIdentifierPattern();
+    const locales = getLocaleIdentifierPattern();
 
     const standalone = `(.+).mdx?`;
     const wrapped = `(.+)/${indexDoc}`;
     const l10nWrapped = `(.+)/(${locales})/${indexDoc}`;
     const pattern = new RegExp(
       `^` +
-        /* Year-Month-Day (required) */
-        `(${date})` +
-        /* Hour::Minute::Second and Time Zone Offset (optional) */
-        `((${time})(${tz})?)?` +
-        `((-${l10nWrapped})|(-${wrapped})|(-${standalone}))` +
-        `$`,
+      /* Year-Month-Day (required) */
+      `(${date})` +
+      /* Hour::Minute::Second and Time Zone Offset (optional) */
+      `((${time})(${tz})?)?` +
+      `((-${l10nWrapped})|(-${wrapped})|(-${standalone}))` +
+      `$`,
     );
 
     recognitionPattern = pattern;
@@ -99,8 +99,8 @@ export class MDXRelativePathMetadata {
   public static make(relativePath: string): MDXRelativePathMetadata | null {
     assert(
       relativePath !== null &&
-        relativePath !== undefined &&
-        typeof relativePath === 'string',
+      relativePath !== undefined &&
+      typeof relativePath === 'string',
     );
 
     const matches = this.getRecognitionPattern().exec(relativePath);
