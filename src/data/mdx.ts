@@ -6,8 +6,12 @@ export interface Frontmatter {
   category?: any;
   tags?: any[];
   lang?: string;
+  /**
+   * Created time
+   */
+  date?: Date;
   lastModifiedTime?: Date;
-  isPublished?: boolean;
+  isPublished?: any;
   license?: string;
 }
 

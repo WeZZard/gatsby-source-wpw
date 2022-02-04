@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {getLocaleIdentifierPattern, makeDisambiguator} from '../utilities';
+import {getLocaleIdentifierPattern, hash} from '../utilities';
 
 let recognitionPattern: RegExp | null = null;
 
@@ -11,7 +11,7 @@ export class RelativePathMetadata {
 
   public readonly createdTime: Date;
 
-  public readonly disambiguator: string;
+  public readonly masterID: string;
 
   public readonly filename: string;
 
@@ -38,21 +38,21 @@ export class RelativePathMetadata {
    * Constructs an RelativePathMetadata instance
    * @param {string} name
    * @param {Date} createdTime
-   * @param {string} disambiguator
+   * @param {string} masterID Identifier for post master
    * @param {string} filename
    * @param {string | undefined} locale
    */
   private constructor(
     name: string,
     createdTime: Date,
-    disambiguator: string,
+    masterID: string,
     filename: string,
     locale?: string,
   ) {
     assert(locale !== undefined || typeof locale === 'string');
     this.name = name;
     this.createdTime = createdTime;
-    this.disambiguator = disambiguator;
+    this.masterID = masterID;
     this.filename = filename;
     this.locale = locale;
   }
@@ -154,14 +154,14 @@ export class RelativePathMetadata {
 
     const disambiguatorBase = createdTime + '-' + name;
 
-    const disambiguator = `${makeDisambiguator(disambiguatorBase)}`;
+    const masterID = `${hash(disambiguatorBase)}`;
 
     const filename = relativePath.split('/').pop()!;
 
     return new RelativePathMetadata(
       name,
       new Date(createdTime),
-      disambiguator,
+      masterID,
       filename,
       locale,
     );

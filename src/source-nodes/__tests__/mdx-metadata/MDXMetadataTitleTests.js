@@ -1,7 +1,7 @@
 import {MDXMetadata} from '../../mdx-metadata';
-import {makeDisambiguator as _} from '../../mdx-shims';
+import {hash as _} from '../../../utilities';
 
-test('MDXMetadata creates metadata whose isLocalized can fallback to false', () => {
+test('MDXMetadata creates metadata of Post whose title can fallback to its document name', () => {
   const parentNode = {
     internal: {
       type: 'File',
@@ -15,8 +15,9 @@ test('MDXMetadata creates metadata whose isLocalized can fallback to false', () 
       type: 'Mdx',
     },
     frontmatter: {
-      title: 'Post Title',
       subtitle: 'Post Subtitle',
+      isPublished: true,
+      tags: ['Tag1', 'Tag2', 'Tag3'],
       category: 'Category1',
       lastModifiedTime: '2019-01-02',
     },
@@ -27,15 +28,14 @@ test('MDXMetadata creates metadata whose isLocalized can fallback to false', () 
   };
 
   const result = {
-    title: 'Post Title',
-    isIndex: false,
+    filename: '2019-01-01-Post-Title.md',
+    title: 'Post-Title',
     isPublished: true,
     createdTime: new Date('2019-01-01'),
-    lang: '',
-    masterName: 'Post-Title',
-    masterCreatedTime: new Date('2019-01-01'),
-    disambiguator: `${_('2019-01-01-Post-Title')}`,
-    filename: '2019-01-01-Post-Title.md',
+    masterID: `${_('2019-01-01-Post-Title')}`,
+    locale: '',
+    nameByPath: 'Post-Title',
+    createdTimeByPath: new Date('2019-01-01'),
   };
 
   expect(MDXMetadata.make(node, parentNode)).toEqual(result);

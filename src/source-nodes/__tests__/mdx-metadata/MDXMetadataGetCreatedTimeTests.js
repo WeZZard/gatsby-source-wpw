@@ -1,4 +1,4 @@
-import {reduceCreatedTime} from '../../mdx-shims';
+import {MDXMetadata} from '../../mdx-metadata';
 
 const birthTimeString = `1990-01-01`;
 const frontmatterDateString = `1990-01-02`;
@@ -6,7 +6,7 @@ const documentDateString = `1990-01-03`;
 
 test('reduceCreatedTime throws when frontMatterDate is not of type Date', () => {
   expect(() => {
-    reduceCreatedTime(
+    MDXMetadata.reduceCreatedTime(
       new Date(birthTimeString),
       frontmatterDateString,
       new Date(documentDateString),
@@ -16,7 +16,7 @@ test('reduceCreatedTime throws when frontMatterDate is not of type Date', () => 
 
 test('reduceCreatedTime does not throw when frontMatterDate is null', () => {
   expect(() => {
-    reduceCreatedTime(
+    MDXMetadata.reduceCreatedTime(
       new Date(birthTimeString),
       null,
       new Date(documentDateString),
@@ -26,7 +26,7 @@ test('reduceCreatedTime does not throw when frontMatterDate is null', () => {
 
 test('reduceCreatedTime does not throw when frontMatterDate is undefined', () => {
   expect(() => {
-    reduceCreatedTime(
+    MDXMetadata.reduceCreatedTime(
       new Date(birthTimeString),
       undefined,
       new Date(documentDateString),
@@ -36,7 +36,7 @@ test('reduceCreatedTime does not throw when frontMatterDate is undefined', () =>
 
 test('reduceCreatedTime throws when documentNameDate is not of type Date', () => {
   expect(() => {
-    reduceCreatedTime(
+    MDXMetadata.reduceCreatedTime(
       new Date(birthTimeString),
       new Date(frontmatterDateString),
       documentDateString,
@@ -46,7 +46,7 @@ test('reduceCreatedTime throws when documentNameDate is not of type Date', () =>
 
 test('reduceCreatedTime does not when documentNameDate is null', () => {
   expect(() => {
-    reduceCreatedTime(
+    MDXMetadata.reduceCreatedTime(
       new Date(birthTimeString),
       new Date(frontmatterDateString),
       null,
@@ -56,7 +56,7 @@ test('reduceCreatedTime does not when documentNameDate is null', () => {
 
 test('reduceCreatedTime does not when documentNameDate is undefined', () => {
   expect(() => {
-    reduceCreatedTime(
+    MDXMetadata.reduceCreatedTime(
       new Date(birthTimeString),
       new Date(frontmatterDateString),
       undefined,
@@ -66,7 +66,7 @@ test('reduceCreatedTime does not when documentNameDate is undefined', () => {
 
 test('reduceCreatedTime throws when birthTime is not of type Date', () => {
   expect(() => {
-    reduceCreatedTime(
+    MDXMetadata.reduceCreatedTime(
       birthTimeString,
       new Date(frontmatterDateString),
       new Date(documentDateString),
@@ -76,7 +76,7 @@ test('reduceCreatedTime throws when birthTime is not of type Date', () => {
 
 test('reduceCreatedTime throws when birthTime is null', () => {
   expect(() => {
-    reduceCreatedTime(
+    MDXMetadata.reduceCreatedTime(
       null,
       new Date(frontmatterDateString),
       new Date(documentDateString),
@@ -86,7 +86,7 @@ test('reduceCreatedTime throws when birthTime is null', () => {
 
 test('reduceCreatedTime does not throw when birthTime is undefined', () => {
   expect(() => {
-    reduceCreatedTime(
+    MDXMetadata.reduceCreatedTime(
       undefined,
       new Date(frontmatterDateString),
       new Date(documentDateString),
@@ -95,7 +95,7 @@ test('reduceCreatedTime does not throw when birthTime is undefined', () => {
 });
 
 test('reduceCreatedTime returns frontMatterDate when frontMatterDate is given', () => {
-  expect(reduceCreatedTime(
+  expect(MDXMetadata.reduceCreatedTime(
     new Date(birthTimeString),
     new Date(frontmatterDateString),
     new Date(documentDateString),
@@ -103,7 +103,7 @@ test('reduceCreatedTime returns frontMatterDate when frontMatterDate is given', 
 });
 
 test('reduceCreatedTime returns documentNameDate when documentNameDate is given and frontMatterDate is not given', () => {
-  expect(reduceCreatedTime(
+  expect(MDXMetadata.reduceCreatedTime(
     new Date(birthTimeString),
     null,
     new Date(documentDateString),
@@ -111,7 +111,7 @@ test('reduceCreatedTime returns documentNameDate when documentNameDate is given 
 });
 
 test('reduceCreatedTime returns birthTime when birthTime is given and frontMatterDate and documentNameDate is both not given', () => {
-  expect(reduceCreatedTime(
+  expect(MDXMetadata.reduceCreatedTime(
     new Date(birthTimeString),
     null,
     null,

@@ -1,5 +1,5 @@
 import {MDXMetadata} from '../../mdx-metadata';
-import {makeDisambiguator as _} from '../../mdx-shims';
+import {hash as _} from '../../../utilities';
 
 test('MDXMetadata creates metadata of Post whose createdTime can fallback to time on relative path', () => {
   const parentNode = {
@@ -17,7 +17,7 @@ test('MDXMetadata creates metadata of Post whose createdTime can fallback to tim
     frontmatter: {
       title: 'Post Title',
       subtitle: 'Post Subtitle',
-      isPublished: 'true',
+      isPublished: true,
       tags: ['Tag1', 'Tag2', 'Tag3'],
       category: 'Category1',
       lastModifiedTime: '2019-01-03',
@@ -30,13 +30,12 @@ test('MDXMetadata creates metadata of Post whose createdTime can fallback to tim
 
   const result = {
     title: 'Post Title',
-    isIndex: false,
     isPublished: true,
     createdTime: new Date('2019-01-01'),
-    lang: '',
-    masterName: 'Post-Title',
-    masterCreatedTime: new Date('2019-01-01'),
-    disambiguator: `${_('2019-01-01-Post-Title')}`,
+    locale: '',
+    nameByPath: 'Post-Title',
+    createdTimeByPath: new Date('2019-01-01'),
+    masterID: `${_('2019-01-01-Post-Title')}`,
     filename: '2019-01-01-Post-Title.md',
   };
 

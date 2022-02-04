@@ -1,45 +1,48 @@
-import {reduceTitle} from '../../mdx-shims';
+import {MDXMetadata} from '../../mdx-metadata';
 
 test('reduceTitle throws when frontMatterTitle is not of string', () => {
   expect(() => {
-    reduceTitle(``, 0);
+    MDXMetadata.reduceTitle(``, 0);
   }).toThrow();
 });
 
 test('reduceTitle does not throw when frontMatterTitle is null', () => {
   expect(() => {
-    reduceTitle(``, null);
+    MDXMetadata.reduceTitle(``, null);
   }).not.toThrow();
 });
 
 test('reduceTitle does not throw when frontMatterTitle is undefined', () => {
   expect(() => {
-    reduceTitle(``, undefined);
+    MDXMetadata.reduceTitle(``, undefined);
   }).not.toThrow();
 });
 
 test('reduceTitle throws when documentName is not of string', () => {
   expect(() => {
-    reduceTitle(0, ``);
+    MDXMetadata.reduceTitle(0, ``);
   }).toThrow();
 });
 
 test('reduceTitle throws when documentName is null', () => {
   expect(() => {
-    reduceTitle(null, ``);
+    MDXMetadata.reduceTitle(null, ``);
   }).toThrow();
 });
 
 test('reduceTitle throws when documentName is undefined', () => {
   expect(() => {
-    reduceTitle(undefined, ``);
+    MDXMetadata.reduceTitle(undefined, ``);
   }).toThrow();
 });
 
 test('reduceTitle returns frontMatterTitle when frontMatterTitle is given', () => {
-  expect(reduceTitle(`documentName`, `frontMatterTitle`)).toBe(`frontMatterTitle`);
+  expect(MDXMetadata.reduceTitle(
+    `documentName`,
+    `frontMatterTitle`,
+  )).toBe(`frontMatterTitle`);
 });
 
 test('reduceTitle returns the documentName when documentName is given and frontMatterTitle is not given', () => {
-  expect(reduceTitle(`documentName`, null)).toBe(`documentName`);
+  expect(MDXMetadata.reduceTitle(`documentName`, null)).toBe(`documentName`);
 });

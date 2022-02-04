@@ -1,5 +1,5 @@
 import {MDXMetadata} from '../../mdx-metadata';
-import {makeDisambiguator as _} from '../../mdx-shims';
+import {hash as _} from '../../../utilities';
 
 test('MDXMetadata returns null when node.internal.type is not Mdx', () => {
   const node = {
@@ -28,7 +28,7 @@ test('MDXMetadata creates metadata of Post', () => {
     frontmatter: {
       title: 'Post Title',
       subtitle: 'Post Subtitle',
-      isPublished: 'true',
+      
       tags: ['Tag1', 'Tag2', 'Tag3'],
       category: 'Category1',
       date: '2019-01-02',
@@ -43,12 +43,11 @@ test('MDXMetadata creates metadata of Post', () => {
   const result = {
     createdTime: new Date('2019-01-02T00:00:00.000Z'),
     title: 'Post Title',
-    isIndex: false,
     isPublished: true,
-    lang: '',
-    masterName: 'Post-Title',
-    masterCreatedTime: new Date('2019-01-01T00:00:00.000Z'),
-    disambiguator: `${_('2019-01-01-Post-Title')}`,
+    locale: '',
+    nameByPath: 'Post-Title',
+    createdTimeByPath: new Date('2019-01-01T00:00:00.000Z'),
+    masterID: `${_('2019-01-01-Post-Title')}`,
     filename: '2019-01-01-Post-Title.md',
   };
 
@@ -71,7 +70,7 @@ test('MDXMetadata creates metadata of localized Post', () => {
     frontmatter: {
       title: 'Post Title',
       subtitle: 'Post Subtitle',
-      isPublished: 'true',
+      isPublished: true,
       tags: ['Tag1', 'Tag2', 'Tag3'],
       category: 'Category1',
       lastModifiedTime: '2019-01-02',
@@ -84,13 +83,12 @@ test('MDXMetadata creates metadata of localized Post', () => {
 
   const result = {
     title: 'Post Title',
-    isIndex: true,
     isPublished: true,
     createdTime: new Date('2019-01-01'),
-    lang: 'en-US',
-    masterName: 'Post-Title',
-    masterCreatedTime: new Date('2019-01-01'),
-    disambiguator: `${_('2019-01-01-Post-Title')}`,
+    locale: 'en-US',
+    nameByPath: 'Post-Title',
+    createdTimeByPath: new Date('2019-01-01'),
+    masterID: `${_('2019-01-01-Post-Title')}`,
     filename: 'index.md',
   };
 

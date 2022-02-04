@@ -1,13 +1,13 @@
 /**
- * Creates a disambiguator string from a given string and seed.
+ * Creates a hash code for a string with optional seed.
  * @param {string} string
- * @param {number} seed
+ * @param {number | undefined} seed
  * @return {string}
  */
-export function makeDisambiguator(string: string, seed?: number): string {
-  const hasNoSeed = seed === undefined || seed === null;
+export function hash(string: string, seed?: number): string {
+  const hasUserDefiendSeed = seed === undefined || seed === null;
   // Hash code
-  let c = hasNoSeed ? 0x85ba : seed;
+  let c = hasUserDefiendSeed ? 0x85ba : seed;
 
   for (let i = 0; i < string.length; i++) {
     c ^= string.charCodeAt(i);

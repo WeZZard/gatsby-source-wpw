@@ -1,11 +1,11 @@
 import {RelativePathMetadata} from '../relative-path-metadata';
-import {makeDisambiguator as _} from '../../utilities';
+import {hash as _} from '../../utilities';
 
 test('RelativePathMetadata creates metadata for standalone file relative path with valid date', () => {
   expect(RelativePathMetadata.make(`1990-01-02-post-name.md`)).toEqual({
     name: `post-name`,
     createdTime: new Date(`1990-01-02`),
-    disambiguator: `${_(`1990-01-02-post-name`)}`,
+    masterID: `${_(`1990-01-02-post-name`)}`,
     filename: '1990-01-02-post-name.md',
     locale: null,
   });
@@ -17,7 +17,7 @@ test('RelativePathMetadata creates metadata for standalone file relative path wi
   ).toEqual({
     name: `post-name`,
     createdTime: new Date(`1990-01-02T04:03:02`),
-    disambiguator: `${_(`1990-01-02T04:03:02-post-name`)}`,
+    masterID: `${_(`1990-01-02T04:03:02-post-name`)}`,
     filename: '1990-01-02T04_03_02-post-name.md',
     locale: null,
   });
@@ -37,7 +37,7 @@ test('RelativePathMetadata creates metadata for language code wrapped file relat
   ).toEqual({
     name: `post-name`,
     createdTime: new Date(`1990-01-02`),
-    disambiguator: `${_(`1990-01-02-post-name`)}`,
+    masterID: `${_(`1990-01-02-post-name`)}`,
     filename: 'index.md',
     locale: `zh`,
   });
@@ -49,7 +49,7 @@ test('RelativePathMetadata creates metadata scripted language code wrapped file 
   ).toEqual({
     name: `post-name`,
     createdTime: new Date(`1990-01-02`),
-    disambiguator: `${_(`1990-01-02-post-name`)}`,
+    masterID: `${_(`1990-01-02-post-name`)}`,
     filename: 'index.md',
     locale: `zh-Hant`,
   });
@@ -61,7 +61,7 @@ test('RelativePathMetadata creates metadata for wrapped file relative path with 
   ).toEqual({
     name: `post-name`,
     createdTime: new Date(`1990-01-02`),
-    disambiguator: `${_(`1990-01-02-post-name`)}`,
+    masterID: `${_(`1990-01-02-post-name`)}`,
     filename: 'index.md',
     locale: null,
   });
@@ -73,7 +73,7 @@ test('RelativePathMetadata creates metadata for wrapped file relative path with 
   ).toEqual({
     name: `post-name`,
     createdTime: new Date(`1990-01-02T04:03:02`),
-    disambiguator: `${_(`1990-01-02T04:03:02-post-name`)}`,
+    masterID: `${_(`1990-01-02T04:03:02-post-name`)}`,
     filename: 'index.md',
     locale: null,
   });
@@ -85,7 +85,7 @@ test('RelativePathMetadata creates metadata for wrapped file relative path with 
   ).toEqual({
     name: `post-name`,
     createdTime: new Date(`1990-01-02T04:03:02+08:00`),
-    disambiguator: `${_(`1990-01-02T04:03:02+08:00-post-name`)}`,
+    masterID: `${_(`1990-01-02T04:03:02+08:00-post-name`)}`,
     filename: 'index.md',
     locale: null,
   });
@@ -97,7 +97,7 @@ test('RelativePathMetadata creates metadata for wrapped file relative path with 
   ).toEqual({
     name: `post-name`,
     createdTime: new Date(`1990-01-02T04:03:02+0800`),
-    disambiguator: `${_(`1990-01-02T04:03:02+0800-post-name`)}`,
+    masterID: `${_(`1990-01-02T04:03:02+0800-post-name`)}`,
     filename: 'index.md',
     locale: null,
   });

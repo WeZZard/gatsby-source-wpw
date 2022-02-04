@@ -23,7 +23,7 @@ export function createPostMasterNode(
   }
 
   const {
-    getNodesByType,
+    getNode,
     createNodeId,
     createContentDigest,
     actions: {
@@ -33,43 +33,40 @@ export function createPostMasterNode(
 
   const {
     name,
-    disambiguator,
+    masterID,
     createdTime,
   } = metadata;
 
   const data = {
     name: name,
-    disambiguator: disambiguator,
+    masterID: masterID,
     createdTime: createdTime,
   };
 
-  const existedNodes = getNodesByType(`PostMaster`).filter(
-    (node) => node.name === name && node.disambiguator === disambiguator,
-  );
-  if (existedNodes.length === 1) {
-    const node = existedNodes[0];
-    log(`Returns id existed post master node: ${JSON.stringify(node)}`);
-    return node.id;
-  } else if (existedNodes.length === 0) {
-    const nodeId = createNodeId(`post-master-${name}-${disambiguator}`);
-    const nodeData = Object.assign({}, data, {
-      id: nodeId,
-      parent: fileNodeID,
-      internal: {
-        type: `PostMaster`,
-        content: `${name}-${disambiguator}`,
-        contentDigest: createContentDigest(`${name}-${disambiguator}`),
-      },
-    });
+  const rawNodeID = `post-master-${masterID}`;
 
-    log(`Create post master node: ${JSON.stringify(data)}`);
-    createNode(nodeData);
+  const existedNode = getNode(rawNodeID);
 
-    return nodeId;
-  } else {
-    throw new Error(`Multiple post master nodes were found for an identical` +
-    ` name and disambiguator. ${existedNodes}`);
+  if (existedNode) {
+    log(`Returns id existed post master node: ${JSON.stringify(existedNode)}`);
+    return rawNodeID;
   }
+
+  const nodeId = createNodeId(rawNodeID);
+  const nodeData = Object.assign({}, data, {
+    id: nodeId,
+    parent: fileNodeID,
+    internal: {
+      type: `PostMaster`,
+      content: `${name}-${masterID}`,
+      contentDigest: createContentDigest(`${name}-${masterID}`),
+    },
+  });
+
+  log(`Create post master node: ${JSON.stringify(data)}`);
+  createNode(nodeData);
+
+  return nodeId;
 }
 
 export interface PostNodeData {

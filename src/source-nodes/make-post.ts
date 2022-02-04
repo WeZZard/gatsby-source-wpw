@@ -3,7 +3,8 @@ import {FileSystemNode} from 'gatsby-source-filesystem';
 import {PluginOptions} from '..';
 import {log, getSourceInstanceName} from '../utilities';
 import {NodeVisitor} from '../visitor';
-import {MDXMetadata, MDXNode, PostMasterNode} from '../data';
+import {MDXNode, PostMasterNode} from '../data';
+import {MDXMetadata} from './mdx-metadata';
 import {
   createPostNode,
   createCategoryNode,
@@ -42,16 +43,15 @@ export class MakePostVisitor extends NodeVisitor {
     if (node.internal.type !== 'Mdx') {
       return;
     }
-    const {
-      getNode,
-    } = this.args;
+    const {getNode} = this.args;
+
     const mdxNode = node as MDXNode;
     if (!mdxNode.parent) {
       log(`No parent for mdx node: ${JSON.stringify(mdxNode)}.`);
       return;
     }
+
     const fsNode = getNode(mdxNode.parent) as FileSystemNode;
-    const masterPostNode = getNode(this.postMasterNodeID) as PostMasterNode;
     const metadata = MDXMetadata.make(mdxNode, fsNode);
 
     if (!metadata) {
@@ -59,7 +59,9 @@ export class MakePostVisitor extends NodeVisitor {
       return;
     }
 
-    if (metadata.masterName !== masterPostNode.name ) {
+    const masterPostNode = getNode(this.postMasterNodeID) as PostMasterNode;
+
+    if (metadata.masterID !== masterPostNode.masterID) {
       return;
     }
 
@@ -79,9 +81,8 @@ export class MakePostVisitor extends NodeVisitor {
     }
 
     let localeNodeId = null;
-    if (metadata.lang) {
-      const locale = metadata.lang;
-      localeNodeId = createLocaleNode(this.args, locale);
+    if (metadata.locale) {
+      localeNodeId = createLocaleNode(this.args, metadata.locale);
     }
 
     const sourceInstanceName = getSourceInstanceName(
@@ -93,7 +94,7 @@ export class MakePostVisitor extends NodeVisitor {
       contents: mdxNode.rawBody,
       directMembers: {
         sourceInstanceName: sourceInstanceName,
-        title: metadata.title,
+        title: mdxNode.frontmatter?.title ?? metadata.title ?? '',
         subtitle: mdxNode.frontmatter?.subtitle ?? '',
         createdTime: metadata.createdTime,
         lastModifiedTime: mdxNode.frontmatter?.lastModifiedTime ??
@@ -101,9 +102,9 @@ export class MakePostVisitor extends NodeVisitor {
         isPublished: mdxNode.frontmatter?.isPublished === true,
         license: mdxNode.frontmatter?.license ?? '',
       },
-      tagNodeIds: tagNodeIds,
-      categoryNodeId: categoryNodeId,
-      localeNodeId: localeNodeId,
+      tagNodeIds,
+      categoryNodeId,
+      localeNodeId,
     };
 
     createPostNode(this.args, this.postMasterNodeID, nodeData);
