@@ -1,19 +1,21 @@
 import {MDXMetadata} from '../../mdx-metadata';
 import {hash as _} from '../../../utilities';
+import {MDXNode} from 'data';
+import {FileSystemNode} from 'gatsby-source-filesystem';
 
 test('MDXMetadata returns null when node.internal.type is not Mdx', () => {
-  const node = {
+  const node: any | MDXNode = {
     internal: {
       type: 'File',
     },
   };
-  const parentNode = {};
+  const parentNode: any | FileSystemNode = {};
 
   expect(MDXMetadata.make(node, parentNode)).toBeNull();
 });
 
 test('MDXMetadata creates metadata of Post', () => {
-  const parentNode = {
+  const parentNode: any | FileSystemNode = {
     internal: {
       type: 'File',
     },
@@ -21,14 +23,14 @@ test('MDXMetadata creates metadata of Post', () => {
     birthTime: '2019-01-01',
   };
 
-  const node = {
+  const node: any | MDXNode = {
     internal: {
       type: 'Mdx',
     },
     frontmatter: {
       title: 'Post Title',
       subtitle: 'Post Subtitle',
-      
+
       tags: ['Tag1', 'Tag2', 'Tag3'],
       category: 'Category1',
       date: '2019-01-02',
@@ -55,7 +57,7 @@ test('MDXMetadata creates metadata of Post', () => {
 });
 
 test('MDXMetadata creates metadata of localized Post', () => {
-  const parentNode = {
+  const parentNode: any | FileSystemNode = {
     internal: {
       type: 'File',
     },
@@ -63,7 +65,7 @@ test('MDXMetadata creates metadata of localized Post', () => {
     birthTime: '2019-01-01',
   };
 
-  const node = {
+  const node: any | MDXNode = {
     internal: {
       type: 'Mdx',
     },

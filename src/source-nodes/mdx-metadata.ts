@@ -65,9 +65,7 @@ export class MDXMetadata {
       `fileNode: ${fileNode}`,
     );
 
-    const node = mdxNode;
-
-    if (node.internal.type !== 'Mdx') {
+    if (mdxNode.internal.type !== 'Mdx') {
       log(`Cannot make MDXMetadata with node which is not of type of MDX.`);
       return null;
     }
@@ -81,8 +79,8 @@ export class MDXMetadata {
       return null;
     }
 
-    const fontmatterDate = node.frontmatter?.date ?
-      new Date(node.frontmatter?.date) :
+    const fontmatterDate = mdxNode.frontmatter?.date ?
+      new Date(mdxNode.frontmatter?.date) :
       undefined;
 
     const relativePathMetadata = RelativePathMetadata.make(
@@ -105,14 +103,14 @@ export class MDXMetadata {
 
     const title = this.reduceTitle(
       relativePathMetadata.name,
-      node.frontmatter?.title,
+      mdxNode.frontmatter?.title,
     );
 
-    const lang = relativePathMetadata.locale || node.frontmatter?.lang || '';
+    const lang = relativePathMetadata.locale || mdxNode.frontmatter?.lang || '';
 
     const isPublished =
-      node.frontmatter?.isPublished === undefined ||
-      node.frontmatter?.isPublished === true;
+      mdxNode.frontmatter?.isPublished === undefined ||
+      mdxNode.frontmatter?.isPublished === true;
 
     const createdTime = this.reduceCreatedTime(
       birthTime,
@@ -137,18 +135,18 @@ export class MDXMetadata {
   /**
    * Reduce a title from document name and the title field of frontmatter.
    * @param {string} documentName
-   * @param {string | undefined} frontMatterTitle
+   * @param {string | undefined} frontmatterTitle
    * @return {string}
    */
   public static reduceTitle(
     documentName: string,
-    frontMatterTitle?: string,
+    frontmatterTitle?: string,
   ): string {
     assert(
-      frontMatterTitle === undefined ||
-      frontMatterTitle === null ||
-      typeof frontMatterTitle === 'string',
-      `frontMatterTitle is ${frontMatterTitle}`,
+      frontmatterTitle === undefined ||
+      frontmatterTitle === null ||
+      typeof frontmatterTitle === 'string',
+      `frontmatterTitle is ${frontmatterTitle}`,
     );
     assert(
       documentName !== undefined &&
@@ -156,8 +154,8 @@ export class MDXMetadata {
       typeof documentName === 'string',
       `documentName is ${documentName}`,
     );
-    if (frontMatterTitle) {
-      return frontMatterTitle;
+    if (frontmatterTitle) {
+      return frontmatterTitle;
     }
     return documentName;
   }
@@ -166,20 +164,20 @@ export class MDXMetadata {
    * Reduce a created time from file birth time, the date field of frontmatter
    * and the date extracted from the docuemnt name.
    * @param {Date | undefined} birthTime
-   * @param {Date | undefined} frontMatterDate
+   * @param {Date | undefined} frontmatterDate
    * @param {Date | undefined} documentNameDate
    * @return {Date}
    */
   public static reduceCreatedTime(
     birthTime: Date,
-    frontMatterDate?: Date,
+    frontmatterDate?: Date,
     documentNameDate?: Date,
   ): Date {
     assert(
-      frontMatterDate === undefined ||
-      frontMatterDate === null ||
-      frontMatterDate instanceof Date,
-      `frontMatterDate is ${frontMatterDate}`,
+      frontmatterDate === undefined ||
+      frontmatterDate === null ||
+      frontmatterDate instanceof Date,
+      `frontmatterDate is ${frontmatterDate}`,
     );
     assert(
       documentNameDate === undefined ||
@@ -190,8 +188,8 @@ export class MDXMetadata {
     assert(
       birthTime != undefined && birthTime != null && birthTime instanceof Date,
     );
-    if (frontMatterDate) {
-      return frontMatterDate;
+    if (frontmatterDate) {
+      return frontmatterDate;
     }
     if (documentNameDate) {
       return documentNameDate;

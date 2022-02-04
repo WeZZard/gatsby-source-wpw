@@ -1,8 +1,11 @@
 import {MDXMetadata} from '../../mdx-metadata';
 import {hash as _} from '../../../utilities';
+import {MDXNode} from 'data';
+import {FileSystemNode} from 'gatsby-source-filesystem';
 
-test('MDXMetadata creates metadata whose isLocalized can fallback to false', () => {
-  const parentNode = {
+test('MDXMetadata.make creates metadata whose locale can fallback to empty ' +
+'string when no locale is given in file path and frontmatters', () => {
+  const parentNode: any | FileSystemNode = {
     internal: {
       type: 'File',
     },
@@ -10,7 +13,7 @@ test('MDXMetadata creates metadata whose isLocalized can fallback to false', () 
     birthTime: '2019-01-01',
   };
 
-  const node = {
+  const node: any | MDXNode = {
     internal: {
       type: 'Mdx',
     },
