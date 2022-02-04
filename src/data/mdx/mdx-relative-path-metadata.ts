@@ -92,7 +92,7 @@ export class MDXRelativePathMetadata {
   }
 
   /**
-   * Creates MDXRelativePathMetadata with a relative
+   * Creates MDXRelativePathMetadata with a relative path.
    * @param {string} relativePath
    * @return {RelativePathMetadata | null}
    */

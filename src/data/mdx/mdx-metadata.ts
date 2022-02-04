@@ -1,7 +1,9 @@
+import {assert} from 'console';
+import {FileSystemNode} from 'gatsby-source-filesystem';
 import {reduceTitle, reduceCreatedTime} from './mdx-shims';
 import {MDXRelativePathMetadata} from './mdx-relative-path-metadata';
-import {log} from '../utilities';
-import {assert} from 'console';
+import {MDXNode} from './mdx-node';
+import {log} from '../../utilities';
 
 /**
  * Metadata about an MDX document.
@@ -53,11 +55,15 @@ export class MDXMetadata {
 
   /**
    * Creates an MDXMetadata from gatsby source node args.
-   * @param {any} mdxNode The `mdxNode`.
-   * @param {any} fileNode The file node. Typically the parent of `mdxNode`.
+   * @param {MDXNode} mdxNode The `mdxNode`.
+   * @param {FileSystemNode} fileNode The file node. Typically the parent of
+   * `mdxNode`.
    * @return {MDXMetadata | null}
    */
-  public static make(mdxNode: any, fileNode: any): MDXMetadata | null {
+  public static make(
+    mdxNode: MDXNode,
+    fileNode: FileSystemNode,
+  ): MDXMetadata | null {
     assert(mdxNode !== null && mdxNode !== undefined, `mdxNode: ${mdxNode}`);
     assert(
       fileNode !== null && fileNode !== undefined,
@@ -80,8 +86,8 @@ export class MDXMetadata {
       return null;
     }
 
-    const fontmatterDate = node.frontmatter.date ?
-      new Date(node.frontmatter.date) :
+    const fontmatterDate = node.frontmatter?.lastModifiedTime ?
+      new Date(node.frontmatter?.lastModifiedTime) :
       undefined;
 
     const relativePathMetadata = MDXRelativePathMetadata.make(
@@ -104,16 +110,16 @@ export class MDXMetadata {
 
     const title = reduceTitle(
       relativePathMetadata.name,
-      node.frontmatter.title,
+      node.frontmatter?.title,
     );
 
-    const lang = relativePathMetadata.lang || node.frontmatter.lang || '';
+    const lang = relativePathMetadata.lang || node.frontmatter?.lang || '';
 
     const isIndex = relativePathMetadata.isIndex;
 
     const isPublished =
-      node.frontmatter.isPublished === undefined ||
-      node.frontmatter.isPublished === 'true';
+      node.frontmatter?.isPublished === undefined ||
+      node.frontmatter?.isPublished === true;
 
     const createdTime = reduceCreatedTime(
       birthTime,

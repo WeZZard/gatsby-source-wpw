@@ -2,7 +2,7 @@
  * Returns `true` if preview is enabled.
  * @return {boolean}
  */
-function isPreviewEnabled(): boolean {
+export function isPreviewEnabled(): boolean {
   if (process.env.GATSBY_IS_PREVIEW_ENABLED) {
     return true;
   }

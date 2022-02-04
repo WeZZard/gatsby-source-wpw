@@ -1,6 +1,4 @@
-declare function require(name: string): any;
-
-const debug = require('debug');
+import debug from 'debug';
 
 const log = debug('gatsby-source-wpw');
 

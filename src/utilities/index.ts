@@ -1,2 +1,5 @@
 export {default as log} from './log';
-export {default as isPreviewEnabled} from './preview';
+export {isPreviewEnabled} from './preview';
+export {makeDisambiguator} from './disambiguator';
+export {getLocaleIdentifierPattern} from './locale';
+export {getSourceInstanceName} from './source-instance-name';

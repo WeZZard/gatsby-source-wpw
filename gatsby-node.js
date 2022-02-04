@@ -1,3 +1,4 @@
-exports.onPreInit = () => console.log("Loaded gatsby-source-wpw.")
+import {sourceNodes} from './src/source-nodes';
 
-exports.sourceNodes = require('./src/source-nodes')
+exports.onPreInit = () => console.log('Loaded gatsby-source-wpw.');
+exports.sourceNodes = sourceNodes;
