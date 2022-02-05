@@ -65,24 +65,24 @@ export class MakePostVisitor extends NodeVisitor {
       return;
     }
 
-    const tags = mdxNode.frontmatter?.tags ?? [];
+    const rawTags = mdxNode.frontmatter?.tags ?? [];
 
-    const tagNodeIds = [];
-    for (const tag of tags) {
-      const tagNodeId = createTagNode(this.args, tag);
-      tagNodeIds.push(tagNodeId);
+    const tags: string[] = [];
+    for (const rawTag of rawTags) {
+      const tagNodeId = createTagNode(this.args, rawTag);
+      tags.push(tagNodeId);
     }
 
-    const category = mdxNode.frontmatter?.category;
+    const rawCategory = mdxNode.frontmatter?.category;
 
-    let categoryNodeId = null;
-    if (category) {
-      categoryNodeId = createCategoryNode(this.args, category);
+    let category: string | undefined = undefined;
+    if (rawCategory) {
+      category = createCategoryNode(this.args, rawCategory);
     }
 
-    let localeNodeId = null;
+    let locale: string | undefined = undefined;
     if (metadata.locale) {
-      localeNodeId = createLocaleNode(this.args, metadata.locale);
+      locale = createLocaleNode(this.args, metadata.locale);
     }
 
     const sourceInstanceName = getSourceInstanceName(
@@ -92,19 +92,19 @@ export class MakePostVisitor extends NodeVisitor {
     const nodeData: PostNodeData = {
       identifier: fsNode.absolutePath,
       contents: mdxNode.rawBody,
-      directMembers: {
+      payload: {
         sourceInstanceName: sourceInstanceName,
-        title: mdxNode.frontmatter?.title ?? metadata.title ?? '',
-        subtitle: mdxNode.frontmatter?.subtitle ?? '',
+        title: mdxNode.frontmatter?.title ?? metadata.title,
+        subtitle: mdxNode.frontmatter?.subtitle,
         createdTime: metadata.createdTime,
         lastModifiedTime: mdxNode.frontmatter?.lastModifiedTime ??
           metadata.createdTime,
         isPublished: mdxNode.frontmatter?.isPublished === true,
-        license: mdxNode.frontmatter?.license ?? '',
+        license: mdxNode.frontmatter?.license,
+        tags,
+        category,
+        locale,
       },
-      tagNodeIds,
-      categoryNodeId,
-      localeNodeId,
     };
 
     createPostNode(this.args, this.postMasterNodeID, nodeData);

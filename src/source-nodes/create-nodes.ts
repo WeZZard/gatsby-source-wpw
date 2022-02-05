@@ -72,18 +72,18 @@ export function createPostMasterNode(
 export interface PostNodeData {
   identifier: string;
   contents: string;
-  directMembers: {
+  payload: {
     sourceInstanceName: string,
     title: string,
-    subtitle: string;
+    subtitle?: string;
     createdTime: Date;
     lastModifiedTime: Date;
     isPublished: boolean;
-    license: string;
+    license?: string;
+    tags: string[];
+    category?: string;
+    locale?: string;
   };
-  tagNodeIds: string[];
-  categoryNodeId: string | null;
-  localeNodeId: string | null;
 }
 
 /**
@@ -99,12 +99,9 @@ export function createPostNode(
   data: PostNodeData,
 ):string {
   const {
-    directMembers,
+    payload,
     identifier,
     contents,
-    tagNodeIds,
-    categoryNodeId,
-    localeNodeId,
   } = data;
   const {
     getNode,
@@ -128,12 +125,7 @@ export function createPostNode(
   const nodeId = createNodeId(postNodeId);
   const nodeData = Object.assign(
     {},
-    {
-      tags___NODE: tagNodeIds,
-      category___NODE: categoryNodeId,
-      locale___NODE: localeNodeId,
-      ...directMembers,
-    },
+    {...payload},
     {
       id: nodeId,
       parent: postMasterNodeID,
@@ -145,7 +137,7 @@ export function createPostNode(
     },
   );
 
-  log(`Create post node: ${JSON.stringify(directMembers)}`);
+  log(`Create post node: ${JSON.stringify(payload)}`);
   createNode(nodeData);
 
   createParentChildLink({
@@ -347,18 +339,18 @@ export function ensureMasterPost(
   const nodeData: PostNodeData = {
     identifier: `${postMasterNode.name}-imaginary-master-post`,
     contents: '',
-    directMembers: {
+    payload: {
       sourceInstanceName: sourceInstanceName,
       title: postMasterNode.name,
-      subtitle: '',
+      subtitle: undefined,
       createdTime: postMasterNode.createdTime,
       lastModifiedTime: postMasterNode.createdTime,
       isPublished: false,
-      license: '',
+      license: undefined,
+      tags: [],
+      category: undefined,
+      locale: undefined,
     },
-    tagNodeIds: [],
-    categoryNodeId: null,
-    localeNodeId: null,
   };
 
   createPostNode(args, postMasterNodeID, nodeData);
