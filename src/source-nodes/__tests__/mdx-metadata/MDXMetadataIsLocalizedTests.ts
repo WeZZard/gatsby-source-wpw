@@ -34,7 +34,6 @@ test('MDXMetadata.make creates metadata whose locale can fallback to empty ' +
     isPublished: true,
     createdTime: new Date('2019-01-01'),
     locale: '',
-    createdTimeByPath: new Date('2019-01-01'),
     masterID: `${_('2019-01-01-Post-Title')}`,
     filename: '2019-01-01-Post-Title.md',
   };

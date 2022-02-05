@@ -47,7 +47,6 @@ test('MDXMetadata creates metadata of Post', () => {
     title: 'Post Title',
     isPublished: true,
     locale: '',
-    createdTimeByPath: new Date('2019-01-01T00:00:00.000Z'),
     masterID: `${_('2019-01-01-Post-Title')}`,
     filename: '2019-01-01-Post-Title.md',
   };
@@ -87,7 +86,6 @@ test('MDXMetadata creates metadata of localized Post', () => {
     isPublished: true,
     createdTime: new Date('2019-01-01'),
     locale: 'en-US',
-    createdTimeByPath: new Date('2019-01-01'),
     masterID: `${_('2019-01-01-Post-Title')}`,
     filename: 'index.md',
   };
