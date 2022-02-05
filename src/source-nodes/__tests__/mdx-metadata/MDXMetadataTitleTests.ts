@@ -34,7 +34,6 @@ test(`MDXMetadata.make creates metadata whose title fallbacks to document ` +
     createdTime: new Date('2019-01-01'),
     masterID: `${_('2019-01-01-Post-Title')}`,
     locale: '',
-    nameByPath: 'Post-Title',
     createdTimeByPath: new Date('2019-01-01'),
   };
 

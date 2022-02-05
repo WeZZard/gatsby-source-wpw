@@ -36,7 +36,6 @@ test('MDXMetadata.make creates metadata whose createdTime can fallback ' +
     isPublished: true,
     createdTime: new Date('2019-01-01'),
     locale: '',
-    nameByPath: 'Post-Title',
     createdTimeByPath: new Date('2019-01-01'),
     masterID: `${_('2019-01-01-Post-Title')}`,
     filename: '2019-01-01-Post-Title.md',

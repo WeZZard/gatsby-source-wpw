@@ -14,7 +14,6 @@ export class MDXMetadata {
   public readonly createdTime: Date;
   public readonly masterID: string;
   public readonly locale: string;
-  public readonly nameByPath: string;
   public readonly createdTimeByPath: Date;
 
   /**
@@ -25,7 +24,6 @@ export class MDXMetadata {
    * @param {Date} createdTime
    * @param {string} masterID Identifier for post master.
    * @param {string} locale
-   * @param {string} nameByPath
    * @param {Date} createdTimeByPath
    */
   public constructor(
@@ -35,7 +33,6 @@ export class MDXMetadata {
     createdTime: Date,
     masterID: string,
     locale: string,
-    nameByPath: string,
     createdTimeByPath: Date,
   ) {
     this.filename = filename;
@@ -44,7 +41,6 @@ export class MDXMetadata {
     this.createdTime = createdTime;
     this.locale = locale;
     this.masterID = masterID;
-    this.nameByPath = nameByPath;
     this.createdTimeByPath = createdTimeByPath;
   }
 
@@ -95,8 +91,6 @@ export class MDXMetadata {
       return null;
     }
 
-    const nameByPath = relativePathMetadata.name;
-
     const masterID = relativePathMetadata.masterID;
 
     const createdTimeByPath = relativePathMetadata.createdTime;
@@ -127,7 +121,6 @@ export class MDXMetadata {
       createdTime,
       masterID,
       lang,
-      nameByPath,
       createdTimeByPath,
     );
   }
