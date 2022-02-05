@@ -3,7 +3,7 @@ import {NodePluginArgs} from 'gatsby';
 import {log, getLocaleIdentifierPattern} from '../utilities';
 import {RelativePathMetadata} from './relative-path-metadata';
 import {getSourceInstanceName} from '../utilities';
-import {PostMasterNode} from '../data';
+import {PostMasterNode, PostNode} from '../data';
 import {PluginOptions} from '..';
 
 /**
@@ -331,7 +331,12 @@ export function ensureMasterPost(
   const {getNode} = args;
   const postMasterNode = getNode(postMasterNodeID) as PostMasterNode;
 
-  if (postMasterNode.children.length != 0) {
+  const noMasterPost = postMasterNode.children.reduce((partial, val)=> {
+    const childNode = getNode(val) as PostNode;
+    return partial && childNode.locale___NODE !== null;
+  }, true);
+
+  if (!noMasterPost) {
     return;
   }
 
@@ -352,8 +357,8 @@ export function ensureMasterPost(
       license: '',
     },
     tagNodeIds: [],
-    categoryNodeId: '',
-    localeNodeId: '',
+    categoryNodeId: null,
+    localeNodeId: null,
   };
 
   createPostNode(args, postMasterNodeID, nodeData);
