@@ -104,6 +104,7 @@ export class MakePostVisitor extends NodeVisitor {
         tags,
         category,
         locale,
+        mdx: mdxNode.id,
       },
     };
 

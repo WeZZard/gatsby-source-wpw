@@ -31,6 +31,7 @@ export function createSchemaCustomization(args: NodePluginArgs): void {
       tags: [Tag!]! @link
       category: Category @link
       locale: Locale @link
+      mdx: Mdx @link
     }
 
     """

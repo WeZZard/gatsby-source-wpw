@@ -83,6 +83,7 @@ export interface PostNodeData {
     tags: string[];
     category?: string;
     locale?: string;
+    mdx?: string,
   };
 }
 
@@ -350,6 +351,7 @@ export function ensureMasterPost(
       tags: [],
       category: undefined,
       locale: undefined,
+      mdx: undefined,
     },
   };
 

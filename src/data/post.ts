@@ -25,4 +25,5 @@ export interface PostNode extends Node {
   tags: string[];
   category?: string;
   locale?: string;
+  mdx: string,
 }
