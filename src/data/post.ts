@@ -17,12 +17,12 @@ export interface Locale extends Node {
 export interface PostNode extends Node {
   sourceInstanceName: string,
   title: string,
-  subtitle: string;
+  subtitle?: string;
   createdTime: Date;
   lastModifiedTime: Date;
   isPublished: boolean;
-  license: string;
-  tags: Tag[];
-  category: Category;
-  locale: Locale;
+  license?: string;
+  tags: string[];
+  category?: string;
+  locale?: string;
 }

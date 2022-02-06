@@ -5,14 +5,23 @@
  * @return {string}
  */
 export function hash(string: string, seed?: number): string {
-  const hasUserDefiendSeed = seed === undefined || seed === null;
+  const hasUserSeed = !seed;
   // Hash code
-  let c = hasUserDefiendSeed ? 0x85ba : seed;
+  let c = hasUserSeed ? 0x85ba : seed;
 
   for (let i = 0; i < string.length; i++) {
     c ^= string.charCodeAt(i);
-    c += (c << 1) + (c << 4) + (c << 7) + (c << 8) + (c << 24);
+    c += (c << 1);
+    c = c & 0xffff;
+    c += (c << 4);
+    c = c & 0xffff;
+    c += (c << 7);
+    c = c & 0xffff;
+    c += (c << 8);
+    c = c & 0xffff;
+    c += (c << 24);
+    c = c & 0xffff;
   }
 
-  return ('000' + c.toString(16)).substring(-4);
+  return c.toString(16).padStart(4, '0');
 }
