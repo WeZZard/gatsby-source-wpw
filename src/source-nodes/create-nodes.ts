@@ -142,8 +142,8 @@ export function createPostNode(
   createNode(nodeData);
 
   createParentChildLink({
-    parent: getNode(postMasterNodeID),
-    child: getNode(nodeId),
+    parent: getNode(postMasterNodeID)!,
+    child: getNode(nodeId)!,
   });
 
   return nodeId;

@@ -6,4 +6,4 @@ export interface PluginOptions {
   sourceInstanceName?: string;
 }
 
-export {PostNode, PostMasterNode, Category, Locale, Tag} from './data';
+export type {PostNode, PostMasterNode, Category, Locale, Tag} from './data';
