@@ -1,4 +1,3 @@
-export {default as log} from './log';
 export {isPreviewEnabled} from './preview';
 export {hash} from './hash';
 export {getLocaleIdentifierPattern} from './locale';

@@ -2,7 +2,8 @@ import assert from 'assert';
 import {FileSystemNode} from 'gatsby-source-filesystem';
 import {RelativePathMetadata} from './relative-path-metadata';
 import {MDXNode} from '../data';
-import {log} from '../utilities';
+import debug from 'debug';
+const log = debug('gatsby-source-wpw:mdx-metadata')
 
 /**
  * Metadata about an MDX document.

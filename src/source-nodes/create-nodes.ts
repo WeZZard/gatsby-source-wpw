@@ -1,10 +1,12 @@
 import {default as _} from 'lodash';
 import {NodePluginArgs} from 'gatsby';
-import {log, getLocaleIdentifierPattern} from '../utilities';
+import {getLocaleIdentifierPattern} from '../utilities';
 import {RelativePathMetadata} from './relative-path-metadata';
 import {getSourceInstanceName} from '../utilities';
 import {PostMasterNode, PostNode} from '../data';
 import {PluginOptions} from '..';
+import debug from 'debug';
+const log = debug('gatsby-source-wpw:create-nodes')
 
 /**
  * Creates PostMaster node with relative-path metadata.

@@ -6,6 +6,8 @@ import {RelativePathMetadata} from './relative-path-metadata';
 import {NodeVisitor} from '../visitor';
 import {MakePostVisitor} from './make-post';
 import {ensureMasterPost} from './create-nodes';
+import debug from 'debug';
+const log = debug('gatsby-source-wpw:make-post-hierarchy')
 
 /**
  * MakePostMasterHierarchyVisitor
@@ -24,15 +26,19 @@ export class MakePostHierarchyVisitor extends NodeVisitor {
 
     const fsNode = node as FileSystemNode;
 
+    log(`Visiting node of type ${node.internal.type} at file ${fsNode.absolutePath}`);
+
     const normSourcePath = path.normalize(this.options.sourcePath);
     const normNodePath = path.normalize(fsNode.absolutePath);
     if (!normNodePath.startsWith(normSourcePath)) {
+      log(`Visiting node due to absolute path is not start with ${normSourcePath}`);
       return;
     }
 
     const relativePath = path.relative(normSourcePath, normNodePath);
     const metadata = RelativePathMetadata.make(relativePath);
     if (!metadata) {
+      log(`Visiting node due to cannot extract metadata from relative path: ${relativePath}`);
       return;
     }
 
@@ -43,6 +49,7 @@ export class MakePostHierarchyVisitor extends NodeVisitor {
     );
 
     if (!postMasterNodeID) {
+      log(`Visiting node due to cannot create post master.`);
       return;
     }
 

@@ -1,8 +1,8 @@
 import path from 'path';
 import * as dotenv from "dotenv";
-import {log} from './utilities';
-
 dotenv.config({path:`.env.${process.env.NODE_ENV}`});
+import debug from 'debug';
+const log = debug('gatsby-source-wpw:source')
 
 export interface ConfigurablePlugin {
   resolve: string;

@@ -1,7 +1,7 @@
 import {Node, NodePluginArgs} from 'gatsby';
 import {FileSystemNode} from 'gatsby-source-filesystem';
 import {PluginOptions} from '..';
-import {log, getSourceInstanceName} from '../utilities';
+import {getSourceInstanceName} from '../utilities';
 import {NodeVisitor} from '../visitor';
 import {MDXNode, PostMasterNode} from '../data';
 import {MDXMetadata} from './mdx-metadata';
@@ -12,6 +12,8 @@ import {
   createLocaleNode,
   PostNodeData,
 } from './create-nodes';
+import debug from 'debug';
+const log = debug('gatsby-source-wpw:make-posts')
 
 /**
  * MakePostVisitor
