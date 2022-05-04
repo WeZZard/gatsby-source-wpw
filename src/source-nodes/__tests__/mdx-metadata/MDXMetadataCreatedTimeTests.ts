@@ -1,7 +1,7 @@
 import {MDXMetadata} from '../../mdx-metadata';
 import {hash as _} from '../../../utilities';
 import {FileSystemNode} from 'gatsby-source-filesystem';
-import {MDXNode} from 'data';
+import {MDXNode} from '../../../data';
 
 test('MDXMetadata.make creates metadata whose createdTime can fallback ' +
 'to time on relative path', () => {

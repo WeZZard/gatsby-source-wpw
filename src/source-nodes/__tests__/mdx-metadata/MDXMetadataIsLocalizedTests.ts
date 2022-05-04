@@ -1,6 +1,6 @@
 import {MDXMetadata} from '../../mdx-metadata';
 import {hash as _} from '../../../utilities';
-import {MDXNode} from 'data';
+import {MDXNode} from '../../../data';
 import {FileSystemNode} from 'gatsby-source-filesystem';
 
 test('MDXMetadata.make creates metadata whose locale can fallback to empty ' +

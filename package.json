@@ -2,9 +2,12 @@
   "name": "gatsby-source-wpw",
   "version": "1.0.0",
   "description": "A minimal boilerplate for the essential files Gatsby looks for in a plugin",
-  "main": "index.ts",
+  "main": "index.js",
+  "bin": "bin.js",
+  "types": "index.d.ts",
   "scripts": {
     "build": "tsc",
+    "prepare": "npm run build",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --setupFiles dotenv/config"
   },
   "keywords": [
@@ -21,7 +24,6 @@
   "bugs": {
     "url": "https://metis.wezzard.com/maniphest/"
   },
-  "type": "module",
   "jest": {
     "preset": "ts-jest",
     "transform": {},
@@ -47,24 +49,31 @@
   "dependencies": {
     "assert": "^2.0.0",
     "debug": "^4.3.4",
+    "dotenv": "^16.0.0",
     "gatsby": "^4.12.1",
-    "gatsby-source-filesystem": "^4.12.1",
+    "gatsby-source-filesystem": "^4.13.0",
     "i18n-locales": "^0.0.5"
   },
   "devDependencies": {
-    "@types/jest": "^27.4.0",
+    "@types/jest": "^27.5.0",
     "@types/node": "^17.0.14",
     "@typescript-eslint/eslint-plugin": "^5.10.2",
     "@typescript-eslint/parser": "^5.10.2",
     "babel-jest": "^27.4.6",
     "babel-preset-gatsby": "^2.6.0",
     "eslint": "^8.8.0",
-    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.25.4",
     "jest": "^27.4.7",
     "ts-jest": "^27.1.3",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.5"
-  }
+  },
+  "files": [
+    "gatsby-node.js",
+    "index.js",
+    "index.d.ts",
+    "src/**/*.js",
+    "src/**/*.d.ts"
+  ]
 }
