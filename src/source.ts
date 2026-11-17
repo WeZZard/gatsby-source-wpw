@@ -1,243 +1,69 @@
-import path from 'path';
-import * as dotenv from "dotenv";
-dotenv.config({path:`.env.${process.env.NODE_ENV}`});
-import debug from 'debug';
-const log = debug('gatsby-source-wpw:source')
+import fs from 'node:fs';
+import path from 'node:path';
 
-export interface ConfigurablePlugin {
-  resolve: string;
-  options?: {
-    [key: string]: any;
-  };
+/**
+ * Resolves the `MyWorks` posts base directory for an Astro project (`cwd`),
+ * supporting explicit `WPW_SOURCE_URL` / `GATSBY_WPW_SOURCE_URL` env overrides,
+ * a populated `./content/_posts` submodule, or a sibling `../MyWorks` checkout.
+ */
+export function resolveWpwPostsDir(cwd: string = process.cwd()): string {
+  const envSource =
+    process.env.WPW_SOURCE_URL || process.env.GATSBY_WPW_SOURCE_URL;
+  if (envSource) {
+    const cleaned = envSource.startsWith('file://')
+      ? envSource.slice('file://'.length)
+      : envSource;
+    const resolved = path.resolve(cwd, cleaned);
+    if (fs.existsSync(resolved)) {
+      return path.relative(cwd, resolved) || '.';
+    }
+  }
+
+  const submoduleDir = path.resolve(cwd, 'content/_posts');
+  if (fs.existsSync(submoduleDir)) {
+    const entries = fs
+      .readdirSync(submoduleDir)
+      .filter(entry => !entry.startsWith('.'));
+    if (entries.length > 0) {
+      return './content/_posts';
+    }
+  }
+
+  const siblingMyWorks = path.resolve(cwd, '../MyWorks');
+  if (fs.existsSync(siblingMyWorks)) {
+    return '../MyWorks';
+  }
+
+  const ciMyWorks = path.resolve(cwd, '../MyWorks.wpw');
+  if (fs.existsSync(ciMyWorks)) {
+    return '../MyWorks.wpw';
+  }
+
+  return './content/_posts';
 }
 
-export type ResolvablePlugin = ConfigurablePlugin | string;
-
-export enum SourceKind {
-  Filesystem,
-  Git,
-};
-
 /**
- * Abstract class of source.
+ * Extracts the `MyWorks`-relative path (`YYYY-MM-DD-slug/...`) from an Astro entry's `filePath` or `id`.
  */
-export abstract class Source {
-  /**
-   * Constructs `Soruce` instance.
-   */
-  constructor() { }
-
-  /**
-   * Get gatsby source plugin kind.
-   */
-  abstract getKind(): SourceKind;
-
-  /**
-   * Get gatsby plugin info from the plugin
-   * @return {ResolvablePlugin}
-   */
-  abstract getResovlablePlugins(): ResolvablePlugin[];
-
-  /**
-   * Get path.
-   */
-  abstract getPath(): string;
-
-  /**
-   * Get source kind from environment variable
-   * @return {SourceKind}
-   */
-  static getSourceKindFromEnvironment(): SourceKind {
-    const rawKind = process.env.GATSBY_WPW_SOURCE_KIND;
-    if (!rawKind) {
-      log(`No source type specified with environment variable 
-      GATSBY_WPW_SOURCE_KIND.`);
-      return SourceKind.Filesystem;
-    }
-
-    if (rawKind.toLowerCase() == 'filesystem') {
-      return SourceKind.Filesystem;
-    }
-
-    if (rawKind.toLowerCase() == 'git') {
-      return SourceKind.Git;
-    }
-
-    log(`Unrecognized value in environment variable 
-    GATSBY_WPW_SOURCE_TYPE ${rawKind}.`);
-
-    return SourceKind.Filesystem;
-  }
-
-  /**
-   * Make source from environment values
-   * @return {Source}
-   */
-  static makeFromEnvironment(): Source {
-    const kind = this.getSourceKindFromEnvironment();
-    const url = process.env.GATSBY_WPW_SOURCE_URL;
-    if (!url) {
-      throw new Error(
-        `Environment variable GATSBY_WPW_SOURCE_URL is not set.`,
-      );
-    }
-    switch (kind) {
-    case SourceKind.Filesystem:
-      return new FilesystemSource(url);
-    case SourceKind.Git:
-      const branch = process.env.GATSBY_WPW_SOURCE_BRANCH;
-      if (!branch) {
-        log(`No branch specified with environment variable GATSBY_WPW_SOURCE_BRANCH, use main by default.`);
-      }
-      return new GitSource(url, branch ?? 'main');
+export function extractPostRelativePath(filePathOrId: string): string {
+  const normalized = filePathOrId.split(path.sep).join('/');
+  const markers = ['content/_posts/', 'MyWorks.wpw/', 'MyWorks/'];
+  for (const marker of markers) {
+    const idx = normalized.indexOf(marker);
+    if (idx !== -1) {
+      return normalized.slice(idx + marker.length);
     }
   }
-};
+  return normalized;
+}
 
-/**
- * Represents a filesystem source.
- */
-class FilesystemSource extends Source {
-  url: string;
-
-  /**
-   * Constructs `SourceFilesystem` instance.
-   * @param {string} url
-   */
-  constructor(url: string) {
-    super();
-    this.url = url;
+export function isPreviewEnabled(): boolean {
+  if (
+    process.env.WPW_PREVIEW === '1' ||
+    process.env.WPW_PREVIEW === 'true' ||
+    Boolean(process.env.GATSBY_IS_PREVIEW_ENABLED)
+  ) {
+    return true;
   }
-
-  /**
-   * Source kind of filesystem source.
-   * @return {SourceKind}
-   */
-  getKind(): SourceKind {
-    return SourceKind.Filesystem;
-  }
-
-  /**
-   * Get gatsby plugin info from the plugin
-   * @return {ResolvablePlugin}
-   */
-  override getResovlablePlugins(): ResolvablePlugin[] {
-    return [
-      {
-        resolve: 'gatsby-source-filesystem',
-        options: {
-          name: `posts`,
-          path: this.getPath(),
-        },
-      },
-    ];
-  }
-
-  /**
-   * Get path.
-   * @return {string}
-   */
-  override getPath(): string {
-    if (this.url.startsWith('file://')) {
-      const comp = this.url.slice('file://'.length);
-      return path.resolve(comp);
-    } else {
-      return path.resolve(this.url);
-    }
-  }
-};
-
-
-/**
- * Represents a git source.
- */
-class GitSource extends Source {
-  url: string;
-
-  branch: string;
-
-  /**
-   * Constructs `PostSourceGit` instance.
-   * @param {string} url
-   * @param {string} branch
-   */
-  constructor(url: string, branch: string) {
-    super();
-    this.url = url;
-    this.branch = branch;
-  }
-
-  /**
-   * Source kind of git source.
-   * @return {SourceKind}
-   */
-  getKind(): SourceKind {
-    return SourceKind.Git;
-  }
-
-  /**
-   * Get gatsby plugin info from the plugin
-   * @return {ResolvablePlugin}
-   */
-  override getResovlablePlugins(): ResolvablePlugin[] {
-    return [
-      // We need to add gatsby-source-filesystem on gatsby.
-      // Else gatsby-source-git-as-filesystem won't work.
-      {
-        resolve: `gatsby-source-filesystem`,
-        options: {
-          path: path.resolve(`src`),
-          name: `dummy`,
-          ignore: [`*`],
-        },
-      },
-      {
-        resolve: 'gatsby-source-git-as-filesystem',
-        options: {
-          name: `posts`,
-          branch: this.branch,
-          remote: this.getResolvedURL(),
-          local: this.getPath(),
-        },
-      },
-    ];
-  }
-
-  /**
-   * Get resolved URL.
-   * @return {string}
-   */
-  private getResolvedURL(): string {
-    if (this.url.startsWith('file://')) {
-      const comp = this.url.slice('file://'.length);
-      return path.resolve(comp);
-    } else if (this.url.startsWith('http://')) {
-      return this.url;
-    } else if (this.url.startsWith('https://')) {
-      return this.url;
-    } else if (this.url.startsWith('ssh://')) {
-      return this.url;
-    } else if (this.url.startsWith('git://')) {
-      return this.url;
-    } else {
-      return path.resolve(this.url);
-    }
-  }
-
-  /**
-   * Get path.
-   * @return {string}
-   */
-  override getPath(): string {
-    return path.join(
-      process.cwd(),
-      `.cache`,
-      `gatsby-source-git-as-filesystem`,
-      `posts`,
-    );
-  }
-};
-
-export const source = Source.makeFromEnvironment();
-
-export default source;
+  return process.env.NODE_ENV === 'development';
+}

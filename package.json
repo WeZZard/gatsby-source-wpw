@@ -1,78 +1,61 @@
 {
-  "name": "gatsby-source-wpw",
-  "version": "1.0.0",
-  "description": "A minimal boilerplate for the essential files Gatsby looks for in a plugin",
-  "main": "index.js",
-  "types": "index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "prepare": "npm run build",
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --setupFiles dotenv/config"
-  },
-  "keywords": [
-    "gatsby",
-    "gatsby-plugin",
-    "WeZZard Personal Works"
-  ],
-  "author": "WeZZard",
+  "name": "@wezzard/wpw",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Shared MyWorks content domain model, Remark AST utilities, and Astro 5 Content Layer loaders for WeZZard Personal Works",
+  "author": "WeZZard <me@wezzard.com>",
   "license": "0BSD",
   "repository": {
     "type": "git",
-    "url": "https://metis.wezzard.com/source/gatsby-source-wpw"
+    "url": "https://github.com/WeZZard/gatsby-source-wpw.git"
   },
-  "bugs": {
-    "url": "https://metis.wezzard.com/maniphest/"
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./astro": {
+      "types": "./dist/astro.d.ts",
+      "import": "./dist/astro.js"
+    },
+    "./remark": {
+      "types": "./dist/remark/index.d.ts",
+      "import": "./dist/remark/index.js"
+    }
   },
-  "jest": {
-    "preset": "ts-jest",
-    "transform": {},
-    "moduleNameMapper": {
-      ".+\\.(css|styl|less|sass|scss)$": "identity-obj-proxy",
-      ".+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js"
-    },
-    "testPathIgnorePatterns": [
-      "node_modules",
-      ".cache"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/(?!(gatsby)/)"
-    ],
-    "globals": {
-      "__PATH_PREFIX__": ""
-    },
-    "testURL": "http://localhost",
-    "setupFiles": [
-      "<rootDir>/loadershim.js"
-    ]
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "npm run build",
+    "test": "npm run build && node --test dist/__tests__/*.test.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "assert": "^2.0.0",
-    "debug": "^4.3.4",
-    "dotenv": "^16.0.0",
-    "gatsby": "^4.12.1",
-    "gatsby-source-filesystem": "^4.13.0",
-    "i18n-locales": "^0.0.5"
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5"
+  },
+  "peerDependencies": {
+    "astro": "^5.0.0",
+    "sharp": "^0.33.0"
+  },
+  "peerDependenciesMeta": {
+    "astro": {
+      "optional": true
+    },
+    "sharp": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "@types/jest": "^27.5.0",
-    "@types/node": "^17.0.14",
-    "@typescript-eslint/eslint-plugin": "^5.10.2",
-    "@typescript-eslint/parser": "^5.10.2",
-    "babel-jest": "^27.4.6",
-    "babel-preset-gatsby": "^2.6.0",
-    "eslint": "^8.8.0",
-    "eslint-config-google": "^0.14.0",
-    "eslint-plugin-import": "^2.25.4",
-    "jest": "^27.4.7",
-    "ts-jest": "^27.1.3",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.5"
-  },
-  "files": [
-    "gatsby-node.js",
-    "index.js",
-    "index.d.ts",
-    "src/**/*.js",
-    "src/**/*.d.ts"
-  ]
+    "@types/node": "^22.13.0",
+    "astro": "^5.5.0",
+    "sharp": "^0.33.5",
+    "typescript": "^5.8.2"
+  }
 }
